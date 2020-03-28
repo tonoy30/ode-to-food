@@ -13,7 +13,8 @@ namespace FoodService.Web.Pages.Restaurants
     {
         private readonly IRestaurantData _restaurantData;
         public Restaurant Restaurant{ get; set; }
-
+        [TempData]
+        public string Message{ get; set; }
         public DetailsModel(IRestaurantData restaurantData)
         {
             _restaurantData = restaurantData;

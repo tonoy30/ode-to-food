@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,7 +27,15 @@ namespace FoodService.Web
         public IActionResult OnGet(string restaurantId)
         {
             Cuisines = _htmlHelper.GetEnumSelectList<CuisineType>();
-            Restaurant = _restaurantData.GetRestaurantsById(restaurantId);
+            if (!string.IsNullOrEmpty(restaurantId))
+            {
+                Restaurant = _restaurantData.GetRestaurantsById(restaurantId);
+            }
+            else
+            {
+                Restaurant = new Restaurant();
+            }
+
             if (Restaurant == null)
             {
                 return RedirectToPage("./NotFound");
@@ -37,15 +46,26 @@ namespace FoodService.Web
 
         public IActionResult OnPost()
         {
-            Cuisines = _htmlHelper.GetEnumSelectList<CuisineType>();
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _restaurantData.UpdateRestaurant(Restaurant);
-                _restaurantData.Commit();
-                return RedirectToPage("./Details", new {restaurantId = Restaurant.Id});
+                Cuisines = _htmlHelper.GetEnumSelectList<CuisineType>();
+                return Page();
             }
 
-            return Page();
+            if (string.IsNullOrEmpty(Restaurant.Id))
+            {
+                _restaurantData.Create(Restaurant);
+                TempData["Message"] = "Restaurant Added";
+            }
+            else
+            {
+                _restaurantData.UpdateRestaurant(Restaurant);
+                TempData["Message"] = "Restaurant Updated";
+            }
+
+            _restaurantData.Commit();
+
+            return RedirectToPage("./Details", new {restaurantId = Restaurant.Id});
         }
     }
 }

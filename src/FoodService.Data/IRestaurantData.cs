@@ -11,7 +11,7 @@ namespace FoodService.Data
         IEnumerable<Restaurant> GetRestaurantsByName(string name);
         Restaurant GetRestaurantsById(string id);
         Restaurant UpdateRestaurant(Restaurant restaurant);
-
+        Restaurant Create(Restaurant restaurant);
         int Commit();
     }
 
@@ -71,6 +71,14 @@ namespace FoodService.Data
             }
 
             return restaurant;
+        }
+
+        public Restaurant Create(Restaurant restaurant)
+        {
+           
+           restaurants.Add(restaurant);
+           restaurant.Id = Guid.NewGuid().ToString();
+           return restaurant;
         }
 
         public int Commit()

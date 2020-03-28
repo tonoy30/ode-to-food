@@ -4,6 +4,15 @@
     ViewData["Title"] = "Details";
 }
 
+@if (Model.Message != null)
+{
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        @Model.Message
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
 <h1>@Model.Restaurant.Name</h1>
 <div>
     Location: @Model.Restaurant.Location
@@ -11,4 +20,5 @@
 <div>
     Cuisine: @Model.Restaurant.Cuisine
 </div>
-<a asp-page="./List" class="btn btn-primary">All Restaurants</a>
+
+<a asp-page="./List" class="btn btn-primary ">All Restaurants</a>
