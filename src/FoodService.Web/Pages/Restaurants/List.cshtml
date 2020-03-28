@@ -11,29 +11,44 @@
                 <input name="searchTerm" type="text" class="form-control" placeholder="Search" asp-for="SearchTerm">
                 <div class="input-group-append">
                     <button class="btn btn-outline-success" type="submit">
-                       Search
+                        Search
                     </button>
                 </div>
             </div>
         </div>
     </form>
 </div>
-<div>
-    <table class="table">
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Location</th>
+            <th scope="col">Cuisine</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
         @foreach (var restaurant in Model.Restaurants)
         {
             <tr>
                 <td>@restaurant.Name</td>
                 <td>@restaurant.Location</td>
                 <td>@restaurant.Cuisine</td>
-                <td>
-                    <a class="btn btn-primary btn-lg" 
+                <td class="btn-group" role="group">
+                    <a class="btn btn-primary"
                        asp-page="./Details"
                        asp-route-restaurantId="@restaurant.Id">
-                        <i class="fas fa-cloud-sun-rain"></i>
+                        Details
+                    </a>
+                    <a class="btn btn-secondary mr-2"
+                       asp-page="./Edit"
+                       asp-route-restaurantId="@restaurant.Id">
+                        Edit
                     </a>
                 </td>
             </tr>
         }
+        </tbody>
     </table>
 </div>

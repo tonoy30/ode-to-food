@@ -10,6 +10,9 @@ namespace FoodService.Data
     {
         IEnumerable<Restaurant> GetRestaurantsByName(string name);
         Restaurant GetRestaurantsById(string id);
+        Restaurant UpdateRestaurant(Restaurant restaurant);
+
+        int Commit();
     }
 
     public class InMemoryRestaurantData : IRestaurantData
@@ -53,8 +56,26 @@ namespace FoodService.Data
 
         public Restaurant GetRestaurantsById(string id)
         {
-            return restaurants.FirstOrDefault(item => item.Id == id);
+            return restaurants.SingleOrDefault(item => item.Id == id);
 
+        }
+
+        public Restaurant UpdateRestaurant(Restaurant restaurant)
+        {
+            var result = restaurants.SingleOrDefault(item => item.Id == restaurant.Id);
+            if (result != null)
+            {
+                result.Name = restaurant.Name;
+                result.Location = restaurant.Location;
+                result.Cuisine = restaurant.Cuisine;
+            }
+
+            return restaurant;
+        }
+
+        public int Commit()
+        {
+            return 0;
         }
     }
 }
