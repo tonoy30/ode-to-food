@@ -1,0 +1,39 @@
+﻿@page
+@model FoodService.Web.Pages.Restaurants.ListModel
+@{
+    ViewData["Title"] = "Restaurants";
+}
+<h1>Restaurants</h1>
+<div>
+    <form>
+        <div class="form-group">
+            <div class="input-group mb-3">
+                <input name="searchTerm" type="text" class="form-control" placeholder="Search" asp-for="SearchTerm">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-success" type="submit">
+                       Search
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div>
+    <table class="table">
+        @foreach (var restaurant in Model.Restaurants)
+        {
+            <tr>
+                <td>@restaurant.Name</td>
+                <td>@restaurant.Location</td>
+                <td>@restaurant.Cuisine</td>
+                <td>
+                    <a class="btn btn-primary btn-lg" 
+                       asp-page="./Details"
+                       asp-route-restaurantId="@restaurant.Id">
+                        <i class="fas fa-cloud-sun-rain"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
