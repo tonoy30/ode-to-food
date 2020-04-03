@@ -28,7 +28,8 @@ namespace FoodService.Data.Services
 
         public List<Restaurant> GetByName(string name)
         {
-            var filter = new BsonDocument("Name", new BsonDocument("$regex", name.ToLower()));
+            var regex = "[" + name.ToLower() + name.ToUpper() + "]";
+            var filter = new BsonDocument("Name", new BsonDocument("$regex", regex));
             return _restaurant.Find(filter).ToList();
         }
 
