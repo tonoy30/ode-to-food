@@ -20,7 +20,9 @@ namespace FoodService.Web.Pages.Restaurants
 
         public void OnGet()
         {
-            Restaurants = _restaurantService.Get();
+            Restaurants = SearchTerm != null
+                ? _restaurantService.GetByName(SearchTerm) 
+                : _restaurantService.Get();
         }
     }
 }
