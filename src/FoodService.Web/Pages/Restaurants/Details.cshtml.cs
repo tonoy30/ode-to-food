@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FoodService.Core.Models;
-using FoodService.Data;
+using FoodService.Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -11,19 +11,19 @@ namespace FoodService.Web.Pages.Restaurants
 {
     public class DetailsModel : PageModel
     {
-        private readonly IRestaurantData _restaurantData;
+        private readonly RestaurantService _restaurantService;
         public Restaurant Restaurant{ get; set; }
         [TempData]
         public string Message{ get; set; }
-        public DetailsModel(IRestaurantData restaurantData)
+        public DetailsModel( RestaurantService restaurantService )
         {
-            _restaurantData = restaurantData;
+            _restaurantService = restaurantService;
         }
 
         public IActionResult OnGet(string restaurantId)
         {
-            Console.WriteLine(_restaurantData.GetRestaurantsById(restaurantId));
-            Restaurant = _restaurantData.GetRestaurantsById(restaurantId);
+           
+            Restaurant = _restaurantService.Get(restaurantId);
             if (Restaurant == null)
             {
                 return RedirectToPage("./NotFound");

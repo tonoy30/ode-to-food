@@ -1,34 +1,26 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using FoodService.Core.Models;
-using FoodService.Data;
+using FoodService.Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Configuration;
 
 namespace FoodService.Web.Pages.Restaurants
 {
     public class ListModel : PageModel
     {
-        private readonly IConfiguration _configuration;
-        private readonly IRestaurantData _restaurantData;
-        public string Message { get; set; }
-        [BindProperty(SupportsGet = true)]
-        public string SearchTerm { get; set; }
+        private readonly RestaurantService _restaurantService;
+
+        [BindProperty(SupportsGet = true)] public string SearchTerm { get; set; }
         public IEnumerable<Restaurant> Restaurants { get; set; }
 
-        public ListModel(IConfiguration configuration, IRestaurantData restaurantData)
+        public ListModel(RestaurantService restaurantService)
         {
-            _configuration = configuration;
-            _restaurantData = restaurantData;
-        }
-        public void OnGet()
-        {
-            Message = _configuration["Message"];
-            Restaurants = _restaurantData.GetRestaurantsByName(SearchTerm);
+            _restaurantService = restaurantService;
         }
 
+        public void OnGet()
+        {
+            Restaurants = _restaurantService.Get();
+        }
     }
 }
